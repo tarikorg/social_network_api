@@ -1,7 +1,7 @@
 const { model, Schema } = require('mongoose')
 
 //validate email function 
-const validateEmail = function(email) {
+const validateEmail = function (email) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     return emailRegex.test(email)
 }
@@ -35,24 +35,24 @@ const userSchema = new Schema({
     ]
 
 }, {
-         //include virtuals when data is requested 
+    //include virtuals when data is requested 
     toJSON: {
         virtuals: true,
     },
-    id: false 
+    id: false
 }
- 
+
 )
 
 
 
 //create a virtual 'friendCount' that retrieves the length of the user's friends array field on query
- userSchema.virtual('friendCount')
- .get(function() {
+userSchema.virtual('friendCount')
+    .get(function () {
         return this.friends.length // get length of friends array
- })
+    })
 
- //init user model
-const User = model('user', userSchema)
- 
+//init user model
+const User = model('User', userSchema)
+
 module.exports = User
