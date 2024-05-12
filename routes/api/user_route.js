@@ -64,7 +64,7 @@ user_route.delete('/users/:id', async (req, res) => {
     try {
         const id = req.params.id
         await User.findOneAndDelete({ _id: id })
-        //whenever a user is deleted, delete all associated thoughts
+        //BONUS: whenever a user is deleted, delete all associated thoughts
         await Thought.deleteMany({ username: id })
 
         res.json({ message: 'User deleted' })
