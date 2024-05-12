@@ -4,14 +4,15 @@ const { User, Thought } = require('../../models')
 //get all users
 user_route.get('/users', async (req, res) => {
     try {
-        const userList = await User.findAll({
-            include: [{ model: Thought }] //users has thoughts reference
 
-        })
+        const userList = await User.find({})
+
+
         res.json(userList)
 
     } catch (err) {
         res.json(err)
+
     }
 
 })
@@ -20,12 +21,12 @@ user_route.get('/users', async (req, res) => {
 user_route.get('/users/:id', async (req, res) => {
     try {
         const id = req.params.id
+        console.log(id)
         //get a single user by _id and thoughts and friends
         //make use to return every friends of the user
-        const user = await User.findOne({
-            where: { _id: id },
-            include: [{ model: Thought }]
-        }).populate('friends') //return all friends of the user
+        const user = await User.findById(
+            id
+        )
 
         res.json(user) //return user
 
@@ -51,7 +52,8 @@ user_route.put('/users/:id', async (req, res) => {
     try {
         const id = req.params.id
         const updatedUserData = req.body
-        const updatedUser = await User.findOneAndUpdate({ _id: id },
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
             updatedUserData,
             { new: true } //return updated user
         )
@@ -65,9 +67,9 @@ user_route.put('/users/:id', async (req, res) => {
 user_route.delete('/users/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const deleteUser = await User.findOneAndDelete({ _id: id })
+        await User.findOneAndDelete({ _id: id })
 
-        res.json(deleteUser)
+        res.json({ message: 'User deleted' })
     } catch (err) {
         res.json(err)
     }
@@ -94,13 +96,13 @@ user_route.delete('/users/:userId/friends/:friendId', async (req, res) => {
     try {
         const userId = req.params.userId
         const friendId = req.params.friendId
-        const removeFriend = await User.findOneAndUpdate(
+        await User.findOneAndUpdate(
             { _id: userId },
             { $pull: { friends: friendId } }, // $pull is used to remove specific value from array ( pull friendId from friends array)
             { new: true }
         )
         //return updated user
-        res.json(removeFriend)
+        res.json({ message: 'Friend removed' })
     } catch (err) {
         res.json(err)
     }

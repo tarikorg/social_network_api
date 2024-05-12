@@ -18,9 +18,8 @@ const reactionSchema = new Schema({
     },
     username: {
         type: String,
-        required: true,
-
-    }
+        required: true
+    },
 }, {
     toJSON: {
         virtuals: true

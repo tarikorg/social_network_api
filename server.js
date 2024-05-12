@@ -1,5 +1,5 @@
 const express = require('express')
-const db = require('./config/connection')//connection to the database
+const db = require('./config/client')//connection to the database
 const routes = require('./routes')//import routes
 
 
