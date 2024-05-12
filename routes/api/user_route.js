@@ -4,10 +4,7 @@ const { User, Thought } = require('../../models')
 //get all users
 user_route.get('/users', async (req, res) => {
     try {
-
         const userList = await User.find({})
-
-
         res.json(userList)
 
     } catch (err) {
@@ -21,9 +18,8 @@ user_route.get('/users', async (req, res) => {
 user_route.get('/users/:id', async (req, res) => {
     try {
         const id = req.params.id
-        console.log(id)
-        //get a single user by _id and thoughts and friends
-        //make use to return every friends of the user
+
+
         const user = await User.findById(
             id
         )
@@ -82,7 +78,8 @@ user_route.post('/users/:userId/friends/:friendId', async (req, res) => {
         const friendId = req.params.friendId
         const addFriend = await User.findOneAndUpdate(
             { _id: userId },//find user by id
-            { $addToSet: { friends: friendId } }, //set friendId into friends array , $addToSet is used to prevent duplicate friends
+            { $addToSet: { friends: friendId } }, //set friendId into friends array 
+            //$addToSet is used to prevent duplicate friends
             { new: true } //return updated user
         )
         res.json(addFriend)
@@ -98,7 +95,7 @@ user_route.delete('/users/:userId/friends/:friendId', async (req, res) => {
         const friendId = req.params.friendId
         await User.findOneAndUpdate(
             { _id: userId },
-            { $pull: { friends: friendId } }, // $pull is used to remove specific value from array ( pull friendId from friends array)
+            { $pull: { friends: friendId } }, //$pull is used to remove specific value from array ( pull friendId from friends array)
             { new: true }
         )
         //return updated user

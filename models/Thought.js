@@ -3,9 +3,6 @@ const { model, Schema, Types } = require('mongoose')
 //schema only, no model for reaction
 //will be used as a subdocument in the thought model
 const reactionSchema = new Schema({
-    //===reactionId
-    //objectId data type 
-    //default value is set to a new objectId
     reactionId: {
         type: Schema.Types.ObjectId,
         default: new Types.ObjectId()
